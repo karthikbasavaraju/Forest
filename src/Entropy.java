@@ -2,8 +2,9 @@ import java.util.*;
 
 public class Entropy {
 
-    private HashMap<String,HashMap<String,Double>> allEntropy;
+    private HashMap<String,HashMap<String,Double>> childEntropy;
     private  HashMap<String,Integer> totalclassificationCount;
+    private HashMap<String,HashMap> classificationCountWithAttributea;
     private Double rootEntropy;
 
     private static double Log2(double n) {
@@ -12,8 +13,12 @@ public class Entropy {
         return Math.log(n) / Math.log(2);
     }
 
-    public HashMap<String, HashMap<String, Double>> getAllEntropy() {
-        return allEntropy;
+    public HashMap<String, HashMap<String, Double>> getchildEntropy() {
+        return childEntropy;
+    }
+
+    public void calculateGain(){
+        new Gain(rootEntropy,childEntropy,classificationCountWithAttributea);
     }
 
     public void topEntropy() {                            //entropy of an attribute
@@ -28,7 +33,7 @@ public class Entropy {
             double prob = (double) p / total;
             rootEntropy -= prob * Log2(prob);                                  //
         }
-        System.out.println(rootEntropy);
+        //System.out.println(rootEntropy);
         this.rootEntropy=rootEntropy;
     }
 
@@ -58,7 +63,7 @@ public class Entropy {
         }
         this.totalclassificationCount = totalclassificationCount;
         LinkedList classificationType = new LinkedList(uniqueClassifications);                    //Unique attributes
-
+        HashMap<String,HashMap> classificationCountWithAttributes = new HashMap<>();
         for(int k=0;k<resultIndex;k++) {                        //TO calculate Entropy for all attributes
 
             HashMap<String, HashMap> classificationCount = new HashMap<>();      //Classification count with respect to value's
@@ -73,7 +78,8 @@ public class Entropy {
                             HashMap hms = classificationCount.get(conditionData.get(k));
                             int i = 1 + Integer.parseInt(hms.get(classification).toString());
                             hms.put(classification, i);
-                        } else {                                                            //if not found then add the classification
+                        }
+                        else {                                                            //if not found then add the classification
                             ListIterator t = classificationType.listIterator();
                             HashMap<String, Integer> temp = new HashMap();
                             while (t.hasNext()) {
@@ -85,7 +91,7 @@ public class Entropy {
                     }
                 }
             }
-            System.out.println(classificationCount);
+            //System.out.println(classificationCount);
 
             HashMap<String, Double> entropy = new HashMap<>();                              //entropy of an attribute
             for (String a : classificationCount.keySet()) {
@@ -106,10 +112,14 @@ public class Entropy {
                 entropy.put(a, entropyValue);
             }
             fentropy.put(attribute.get(k).toString(),entropy);
+            classificationCountWithAttributes.put(attribute.get(k).toString(),classificationCount);
         }
-        System.out.println(fentropy);
-        this.allEntropy = fentropy;
-        System.out.println(this.totalclassificationCount);
+        //System.out.println("FENTROPY="+fentropy);
+        System.out.println(classificationCountWithAttributes);
+        this.classificationCountWithAttributea = classificationCountWithAttributes;
+        this.childEntropy = fentropy;
+        //System.out.println(this.totalclassificationCount);
         topEntropy();
+        calculateGain();
     }
 }
