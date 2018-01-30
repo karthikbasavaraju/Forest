@@ -6,6 +6,21 @@ public class Entropy {
     private  HashMap<String,Integer> totalclassificationCount;
     private HashMap<String,HashMap> classificationCountWithAttributea;
     private Double rootEntropy;
+    HashMap<String,Double> rootGain = new HashMap<>();
+    HashMap<String,Double> gainRatio = new HashMap<>();
+    HashMap<String,Double> splitEntropy = new HashMap<>();
+
+    public HashMap<String, Double> getGainRatio() {
+        return gainRatio;
+    }
+
+    public HashMap<String, Double> getSplitEntropy() {
+        return splitEntropy;
+    }
+
+    public HashMap<String, Double> getRootGain() {
+        return rootGain;
+    }
 
     private static double Log2(double n) {
         if(n ==0)
