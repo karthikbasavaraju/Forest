@@ -106,7 +106,7 @@ public class Entropy {
                     }
                 }
             }
-            //System.out.println(classificationCount);
+            System.out.println(classificationCount);
 
             HashMap<String, Double> entropy = new HashMap<>();                              //entropy of an attribute
             for (String a : classificationCount.keySet()) {
