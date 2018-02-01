@@ -38,7 +38,7 @@ public class BuildTree {
             }
 
             //System.out.println("---chosen attribute value="+chosenAttributeString);
-            //System.out.println("newMainList="+newMainList);
+
             int resultIndex = (newMainList.get(0)).size() - 1;
             count++;
             //System.out.println("resultIndex="+resultIndex+" --count = "+count);
@@ -50,8 +50,15 @@ public class BuildTree {
 
                 String nextBestAttribute = Gain.bestAttribute;
 
-
-                if (/*nextBestAttribute.equals("EnjoySport") ||*/ Gain.rootEntropy.equals(0.0) );
+                //System.out.println("newMainList="+newMainList);
+                if (/*nextBestAttribute.equals("EnjoySport") ||*/ Gain.rootEntropy.equals(0.0) ){
+                    System.out.println("//////////");
+                    System.out.println(Entropy.classtype.get(0));
+                    System.out.println("Chosen Attribute string = "+chosenAttributeString);
+                    System.out.println("parent="+bestAttribute);
+                    System.out.println("//////////\n");
+                   // System.out.println("Chosen Attribute string og 0.0 = "+chosenAttributeString)
+                }
                 else {
                     System.out.println("Chosen Attribute string = "+chosenAttributeString);
                     System.out.println("next best attribute="+nextBestAttribute);

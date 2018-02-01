@@ -62,7 +62,7 @@ public class Gain {
 
         }
 
-        System.out.println("gain ="+rootGain);
+        //System.out.println("gain ="+rootGain);
 
 
 
@@ -75,11 +75,11 @@ public class Gain {
                 break;
             }
         }
-        String fina="",condfina="";
+       /* String fina="",condfina="";
 
         if(Entropy.classtype.size()==1 && cc.equals(0.0)){
-            System.out.println("ans="+Entropy.classtype.get(0));
-            System.out.println("classification count with attr="+classificationCountWithAttributes);
+            //System.out.println("ans="+Entropy.classtype.get(0));
+            //System.out.println("classification count with attr="+classificationCountWithAttributes);
             for(String c1 : classificationCountWithAttributes.keySet()){
                 HashMap hm2 = classificationCountWithAttributes.get(c1);
                 for(Object c2: hm2.keySet()){
@@ -88,10 +88,10 @@ public class Gain {
                     fina = hm2.get(fin).toString();
                 }
             }
-            System.out.println("final="+fina);
-            System.out.println("condfin="+condfina);
+            //System.out.println("final="+fina);
+            //System.out.println("condfin="+condfina);
 
-        }
+        }*/
         this.rootEntropy = rootEntropy;
         Disp.display("end of Gain");
 
