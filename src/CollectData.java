@@ -8,18 +8,22 @@ public class CollectData {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("C:\\Users\\kbasa\\IdeaProjects\\Decision Tree\\src\\Aldo.csv"));
 
+        int resultIndex = -1;
 
         LinkedList<HashMap<String, String>> mainList = new LinkedList<>();
-        HashMap<String, String> subList;
+        LinkedHashMap<String, String> subList;
         LinkedList<String> attribute = new LinkedList<>();
         StringTokenizer stemp1 = new StringTokenizer(scanner.next(), ",");
         while (stemp1.hasMoreTokens()) {
             attribute.add(stemp1.nextToken());
+
         }
+        System.out.println(attribute);
         while (scanner.hasNext()) {
             StringTokenizer stemp = new StringTokenizer(scanner.next(), ",");
-            subList = new HashMap<>();
+            subList = new LinkedHashMap<>();
             int i = 0;
+            subList.put("del","delete this");
             while (stemp.hasMoreTokens()) {
                 String temp = stemp.nextToken();
                 subList.put(attribute.get(i), temp);
@@ -27,9 +31,8 @@ public class CollectData {
             }
             mainList.add(subList);
         }
-        LinkedList<LinkedList> mainList1 = (new MapToList()).mapToList(mainList);
-        System.out.println(mainList1);
-        new Entropy(mainList1, 5);
-        //System.out.println(mainList);
+        //System.out.println("main = "+mainList);
+        new BuildTree(mainList,"del");
+
     }
 }

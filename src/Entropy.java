@@ -2,23 +2,24 @@ import java.util.*;
 
 public class Entropy {
 
-    private HashMap<String,HashMap<String,Double>> childEntropy;
-    private  HashMap<String,Integer> totalclassificationCount;
-    private HashMap<String,HashMap> classificationCountWithAttributea;
+    private LinkedHashMap<String,LinkedHashMap<String,Double>> childEntropy;
+    private  LinkedHashMap<String,Integer> totalclassificationCount;
+    private LinkedHashMap<String,LinkedHashMap> classificationCountWithAttributea;
     private Double rootEntropy;
-    HashMap<String,Double> rootGain = new HashMap<>();
-    HashMap<String,Double> gainRatio = new HashMap<>();
-    HashMap<String,Double> splitEntropy = new HashMap<>();
+    static public LinkedList classtype;
+    LinkedHashMap<String,Double> rootGain = new LinkedHashMap<>();
+    LinkedHashMap<String,Double> gainRatio = new LinkedHashMap<>();
+    LinkedHashMap<String,Double> splitEntropy = new LinkedHashMap<>();
 
-    public HashMap<String, Double> getGainRatio() {
+    public LinkedHashMap<String, Double> getGainRatio() {
         return gainRatio;
     }
 
-    public HashMap<String, Double> getSplitEntropy() {
+    public LinkedHashMap<String, Double> getSplitEntropy() {
         return splitEntropy;
     }
 
-    public HashMap<String, Double> getRootGain() {
+    public LinkedHashMap<String, Double> getRootGain() {
         return rootGain;
     }
 
@@ -28,7 +29,7 @@ public class Entropy {
         return Math.log(n) / Math.log(2);
     }
 
-    public HashMap<String, HashMap<String, Double>> getchildEntropy() {
+    public LinkedHashMap<String, LinkedHashMap<String, Double>> getchildEntropy() {
         return childEntropy;
     }
 
@@ -48,23 +49,24 @@ public class Entropy {
             double prob = (double) p / total;
             rootEntropy -= prob * Log2(prob);                                  //
         }
-        //System.out.println(rootEntropy);
         this.rootEntropy=rootEntropy;
     }
 
 
     public Entropy(LinkedList allAttributeValues, Integer resultIndex){
+        Disp.display("start of Entropy");
 
-        HashMap<String,HashMap<String,Double>> fentropy = new HashMap<>();     //To store the entropy of all attributes
+        LinkedHashMap<String,LinkedHashMap<String,Double>> fentropy = new LinkedHashMap<>();     //To store the entropy of all attributes
         LinkedList attribute = (LinkedList)allAttributeValues.get(0);
         allAttributeValues.remove(0);                                     // To remove heading
 
         ListIterator allAttributeValuesIterator = allAttributeValues.listIterator();
-        HashMap<String,Integer> totalclassificationCount = new HashMap<>();
+        LinkedHashMap<String,Integer> totalclassificationCount = new LinkedHashMap<>();
         Set<String> uniqueClassifications= new HashSet();                          //To find the unique classifications
 
         while(allAttributeValuesIterator.hasNext()){
             LinkedList temp = (LinkedList)allAttributeValuesIterator.next();
+            //System.out.println(temp);
             uniqueClassifications.add(temp.get(resultIndex).toString());
 
             if(totalclassificationCount.containsKey(temp.get(resultIndex).toString()))
@@ -78,10 +80,11 @@ public class Entropy {
         }
         this.totalclassificationCount = totalclassificationCount;
         LinkedList classificationType = new LinkedList(uniqueClassifications);                    //Unique attributes
-        HashMap<String,HashMap> classificationCountWithAttributes = new HashMap<>();
+        this.classtype = new LinkedList(uniqueClassifications);
+        LinkedHashMap<String,LinkedHashMap> classificationCountWithAttributes = new LinkedHashMap<>();
         for(int k=0;k<resultIndex;k++) {                        //TO calculate Entropy for all attributes
 
-            HashMap<String, HashMap> classificationCount = new HashMap<>();      //Classification count with respect to value's
+            LinkedHashMap<String, LinkedHashMap> classificationCount = new LinkedHashMap<>();      //Classification count with respect to value's
             allAttributeValuesIterator = allAttributeValues.listIterator();                                             // Values list
             while (allAttributeValuesIterator.hasNext()) {
                 LinkedList conditionData = (LinkedList) allAttributeValuesIterator.next();   //values(D6,Rain,Cool,Normal,Strong=No)
@@ -90,13 +93,13 @@ public class Entropy {
                     String classification = classificationTypeIterator.next().toString();
                     if (conditionData.get(resultIndex).equals(classification)) {            //to check which classification(yes or no) it belongs to
                         if (classificationCount.containsKey(conditionData.get(k))) {        //if found then increment the corresponding classification count
-                            HashMap hms = classificationCount.get(conditionData.get(k));
+                            LinkedHashMap hms = classificationCount.get(conditionData.get(k));
                             int i = 1 + Integer.parseInt(hms.get(classification).toString());
                             hms.put(classification, i);
                         }
                         else {                                                            //if not found then add the classification
                             ListIterator t = classificationType.listIterator();
-                            HashMap<String, Integer> temp = new HashMap();
+                            LinkedHashMap<String, Integer> temp = new LinkedHashMap();
                             while (t.hasNext()) {
                                 temp.put(t.next().toString(), 0);
                             }
@@ -106,19 +109,18 @@ public class Entropy {
                     }
                 }
             }
-            System.out.println(classificationCount);
+            //System.out.println(classificationCount);
 
-            HashMap<String, Double> entropy = new HashMap<>();                              //entropy of an attribute
+            LinkedHashMap<String, Double> entropy = new LinkedHashMap<>();                              //entropy of an attribute
             for (String a : classificationCount.keySet()) {
 
                 double entropyValue = 0;
 
-                HashMap<String, Integer> t = classificationCount.get(a);
+                LinkedHashMap<String, Integer> t = classificationCount.get(a);
                 Integer total = 0;
                 for (Integer b : t.values()) {
                     total = total + b;
                 }
-
                 for (String b : t.keySet()) {
                     int p = t.get(b);
                     double prob = (double) p / total;
@@ -130,11 +132,13 @@ public class Entropy {
             classificationCountWithAttributes.put(attribute.get(k).toString(),classificationCount);
         }
         //System.out.println("FENTROPY="+fentropy);
-        System.out.println(classificationCountWithAttributes);
         this.classificationCountWithAttributea = classificationCountWithAttributes;
         this.childEntropy = fentropy;
-        //System.out.println(this.totalclassificationCount);
+
+
         topEntropy();
         calculateGain();
+        Disp.display("End of Entropy");
+
     }
 }
