@@ -6,7 +6,7 @@ import java.util.*;
 public class CollectData {
 
     public static void main(String[] args) throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("C:\\Users\\kbasa\\IdeaProjects\\Decision Tree\\src\\Aldo.csv"));
+        Scanner scanner = new Scanner(new File("C:\\Users\\kbasa\\IdeaProjects\\Decision Tree\\src\\zz.csv"));
 
         int resultIndex = -1;
 
@@ -31,7 +31,7 @@ public class CollectData {
             }
             mainList.add(subList);
         }
-        //System.out.println("main = "+mainList);
+        System.out.println("main = "+mainList);
         new BuildTree(mainList,"del");
 
     }

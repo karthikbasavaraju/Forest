@@ -62,7 +62,7 @@ public class Gain {
 
         }
 
-        //System.out.println("gain ="+rootGain);
+        System.out.println("gain ="+rootGain);
 
 
 

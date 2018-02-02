@@ -27,7 +27,8 @@ public class BuildTree {
                 HashMap newhm = new LinkedHashMap();
                 for (Object Ohmkeys : hm.keySet()) {
                     String hmkey = Ohmkeys.toString();
-                    if (hm.get(hmkey).equals(chosenAttributeString)) {
+                    //System.out.println("chosen aattr="+chosenAttributeString+"---"+hm.get(hmkey));
+                    if (hm.get(hmkey).equals(chosenAttributeString) && hmkey.equals(bestAttribute)) {
                         newhm = new LinkedHashMap(hm);
                     }
                 }
@@ -49,8 +50,16 @@ public class BuildTree {
 
 
                 String nextBestAttribute = Gain.bestAttribute;
-
-                //System.out.println("newMainList="+newMainList);
+               /* System.out.println("newMainList=");
+                ListIterator test = mainList.listIterator();
+                while (test.hasNext()){
+                    System.out.println(test.next());
+                }
+                System.out.println();
+                test = newMainList.listIterator();
+                while (test.hasNext()){
+                    System.out.println(test.next());
+                }*/
                 if (/*nextBestAttribute.equals("EnjoySport") ||*/ Gain.rootEntropy.equals(0.0) ){
                     System.out.println("//////////");
                     System.out.println(Entropy.classtype.get(0));
