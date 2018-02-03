@@ -1,9 +1,6 @@
-import java.awt.*;
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Iterator;
 
 public class Gain {
 
@@ -49,7 +46,6 @@ public class Gain {
                 for(String countName : temp.keySet()){
                     classificationCount = classificationCount + Integer.parseInt(temp.get(countName).toString());
                 }
-                //System.out.println(classificationCount+","+","+count+","+childEntropyValues.get(child));
                 classificationCountWithAttributes.get(root).get(child);
                 rootEntropyValue -= Math.abs(classificationCount/count)*childEntropyValues.get(child);
                 infoGain += informationGain(classificationCount,count);
@@ -61,41 +57,19 @@ public class Gain {
             gainRatio.put(root,(rootEntropyValue)/(infoGain));
 
         }
-
-        //System.out.println("gain ="+rootGain);
+        //System.out.println("gain ="+rootGain);              //Information Gain
        // System.out.println("child entropy="+childEntropy);
-
-
         /*System.out.println("Splitentropy = "+splitEntropy);
         System.out.println("gain ratio = "+gainRatio);
-        */Double cc = Collections.max(rootGain.values());
+        */
+        Double cc = Collections.max(rootGain.values());
         for(String s : rootGain.keySet()){
             if(rootGain.get(s).equals(cc)){
                 this.bestAttribute=s;
                 break;
             }
         }
-        /*
-        String fina="",condfina="";
-
-        if(Entropy.classtype.size()==1 && cc.equals(0.0)){
-            //System.out.println("ans="+Entropy.classtype.get(0));
-            //System.out.println("classification count with attr="+classificationCountWithAttributes);
-            for(String c1 : classificationCountWithAttributes.keySet()){
-                HashMap hm2 = classificationCountWithAttributes.get(c1);
-                for(Object c2: hm2.keySet()){
-                    String fin = c2.toString();
-                    condfina=fin;
-                    fina = hm2.get(fin).toString();
-                }
-            }
-            System.out.println("final="+fina);
-            System.out.println("condfin="+condfina);
-
-        }*/
         this.rootEntropy = rootEntropy;
         Disp.display("end of Gain");
-
-        //System.out.println(this.bestAttribute);
     }
 }

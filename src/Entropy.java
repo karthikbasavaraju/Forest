@@ -17,10 +17,6 @@ public class Entropy {
         return Math.log(n) / Math.log(2);
     }
 
-    public LinkedHashMap<String, LinkedHashMap<String, Double>> getchildEntropy() {
-        return childEntropy;
-    }
-
     public void calculateGain(){
         new Gain(rootEntropy,childEntropy,classificationCountWithAttributea);
     }
@@ -50,11 +46,10 @@ public class Entropy {
 
         ListIterator allAttributeValuesIterator = allAttributeValues.listIterator();
         LinkedHashMap<String,Integer> totalclassificationCount = new LinkedHashMap<>();
-        Set<String> uniqueClassifications= new HashSet();                          //To find the unique classifications
+        LinkedHashSet<String> uniqueClassifications= new LinkedHashSet<>();                          //To find the unique classifications
 
         while(allAttributeValuesIterator.hasNext()){
             LinkedList temp = (LinkedList)allAttributeValuesIterator.next();
-            //System.out.println(temp);
             uniqueClassifications.add(temp.get(resultIndex).toString());
 
             if(totalclassificationCount.containsKey(temp.get(resultIndex).toString()))
@@ -127,6 +122,5 @@ public class Entropy {
         topEntropy();
         calculateGain();
         Disp.display("End of Entropy");
-
     }
 }
