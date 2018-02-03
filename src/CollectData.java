@@ -30,8 +30,17 @@ public class CollectData {
             mainList.add(subList);
         }
         System.out.println("main = "+mainList);
-        MyTree tree = new BuildTree().buildSubTree(mainList,null);
+
+        SplitSets s = new SplitSets(mainList,50);
+
+        LinkedList<HashMap<String,String>> testingSet= s.getTestSet();
+        LinkedList<HashMap<String,String>> trainingSet= s.getTrainSet();
+        System.out.println(trainingSet);
+        System.out.println(testingSet);
+        MyTree tree = new BuildTree().buildSubTree(trainingSet,null);
         new Disp().displayNodes(tree,"","");
-        
+        Predict n =new Predict(tree,testingSet);
+        n.printDetailedResult();
+        n.predictionAccuracy();
     }
 }

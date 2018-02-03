@@ -25,6 +25,7 @@ public class BuildTree {
 
                 if (Gain.rootEntropy.equals(0.0)) {
                     tree = new MyTree(Entropy.classtype.get(0), "_root_");
+                    tree.setLeaf();
                 }
                 else{
                     tree = new BuildTree().buildSubTree(mainList, nextBestAttribute);
@@ -34,6 +35,7 @@ public class BuildTree {
             else if (resultIndex == 0) {
                 LinkedList classif = new LinkedList(mainList.get(0).values());
                 tree = new MyTree(classif.get(0), "_root_");
+                tree.setLeaf();
             }
         }
         else{
@@ -70,6 +72,7 @@ public class BuildTree {
 
                     if (Gain.rootEntropy.equals(0.0)) {
                         nodes = new MyTree(Entropy.classtype.get(0), chosenAttributeString);
+                        nodes.setLeaf();
                     }
                     else {
                         nodes = new BuildTree().buildSubTree(newMainList, nextBestAttribute);
@@ -79,6 +82,7 @@ public class BuildTree {
                 else if (resultIndex == 0) {
                     LinkedList classif = new LinkedList(newMainList.get(0).values());
                     nodes = new MyTree(classif.get(0), chosenAttributeString);
+                    nodes.setLeaf();
                 }
                 childTree.add(nodes);
             }

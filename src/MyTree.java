@@ -5,6 +5,7 @@ public class MyTree<String> {
     private String attribute;
     private String edge;
     private LinkedList<MyTree<String>> children;
+    private boolean leaf=false;
     private String parent;
 
     public MyTree() {
@@ -16,11 +17,21 @@ public class MyTree<String> {
         this.edge = edge;
     }
 
+    public  void setLeaf(){
+        this.leaf=true;
+    }
+
+    public boolean isLeaf() {
+        return leaf;
+    }
+
     public MyTree(String attribute) {
         this();
         this.attribute = attribute;
         this.edge = null;
     }
+
+
 
     public MyTree(String attribute,String edge) {
         this();
