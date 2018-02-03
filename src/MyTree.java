@@ -1,29 +1,29 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MyTree<T> {
 
     private T data;
-    private List<MyTree<T>> children;
+    private T edge;
+    private LinkedList<MyTree<T>> children;
     private MyTree<T> parent;
 
     public MyTree() {
         super();
-        children = new ArrayList<MyTree<T>>();
+        children = new LinkedList<MyTree<T>>();
     }
 
-    public MyTree(T data) {
+    public MyTree(T data,T edge) {
         this();
-        setData(data);
+        setData(data,edge);
     }
 
     public MyTree<T> getParent() {
         return this.parent;
     }
 
-    public List<MyTree<T>> getChildren() {
+    public LinkedList<MyTree<T>> getChildren() {
         return this.children;
     }
 
@@ -35,7 +35,7 @@ public class MyTree<T> {
         return (getNumberOfChildren() > 0);
     }
 
-    public void setChildren(List<MyTree<T>> children) {
+    public void setChildren(LinkedList<MyTree<T>> children) {
         for(MyTree<T> child : children) {
             child.parent = this;
         }
@@ -54,7 +54,7 @@ public class MyTree<T> {
     }
 
     public void removeChildren() {
-        this.children = new ArrayList<MyTree<T>>();
+        this.children = new LinkedList<MyTree<T>>();
     }
 
     public void removeChildAt(int index) throws IndexOutOfBoundsException {
@@ -69,8 +69,9 @@ public class MyTree<T> {
         return this.data;
     }
 
-    public void setData(T data) {
+    public void setData(T data,T edge) {
         this.data = data;
+        this.edge = edge;
     }
 
     public String toString() {

@@ -11,18 +11,6 @@ public class Entropy {
     LinkedHashMap<String,Double> gainRatio = new LinkedHashMap<>();
     LinkedHashMap<String,Double> splitEntropy = new LinkedHashMap<>();
 
-    public LinkedHashMap<String, Double> getGainRatio() {
-        return gainRatio;
-    }
-
-    public LinkedHashMap<String, Double> getSplitEntropy() {
-        return splitEntropy;
-    }
-
-    public LinkedHashMap<String, Double> getRootGain() {
-        return rootGain;
-    }
-
     private static double Log2(double n) {
         if(n ==0)
             return 0;

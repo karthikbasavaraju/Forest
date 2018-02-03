@@ -62,20 +62,21 @@ public class Gain {
 
         }
 
-        System.out.println("gain ="+rootGain);
-
+        //System.out.println("gain ="+rootGain);
+       // System.out.println("child entropy="+childEntropy);
 
 
         /*System.out.println("Splitentropy = "+splitEntropy);
-        System.out.println("gain ratio = "+gainRatio);*/
-        Double cc = Collections.max(rootGain.values());
+        System.out.println("gain ratio = "+gainRatio);
+        */Double cc = Collections.max(rootGain.values());
         for(String s : rootGain.keySet()){
             if(rootGain.get(s).equals(cc)){
                 this.bestAttribute=s;
                 break;
             }
         }
-       /* String fina="",condfina="";
+        /*
+        String fina="",condfina="";
 
         if(Entropy.classtype.size()==1 && cc.equals(0.0)){
             //System.out.println("ans="+Entropy.classtype.get(0));
@@ -88,8 +89,8 @@ public class Gain {
                     fina = hm2.get(fin).toString();
                 }
             }
-            //System.out.println("final="+fina);
-            //System.out.println("condfin="+condfina);
+            System.out.println("final="+fina);
+            System.out.println("condfin="+condfina);
 
         }*/
         this.rootEntropy = rootEntropy;

@@ -8,7 +8,6 @@ public class CollectData {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File("C:\\Users\\kbasa\\IdeaProjects\\Decision Tree\\src\\zz.csv"));
 
-        int resultIndex = -1;
 
         LinkedList<HashMap<String, String>> mainList = new LinkedList<>();
         LinkedHashMap<String, String> subList;
@@ -32,7 +31,9 @@ public class CollectData {
             mainList.add(subList);
         }
         System.out.println("main = "+mainList);
-        new BuildTree(mainList,"del");
+        new BuildTree().buildSubTree(mainList,"del");
+   //     new BuildTree(mainList,"delete this");
+
 
     }
 }
