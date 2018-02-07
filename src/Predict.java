@@ -1,32 +1,64 @@
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.*;
 
 public class Predict {
 
-    private String detailResult;
+    private String detailResult="";
     private int passCount=0;
     private int totalCount=0;
     private String key;
-    public Predict(MyTree tree, LinkedList<HashMap<String,String>> predictList){
+    private String classifi = "";
+    private String classification;
+    private int k =5;
+    public Predict(LinkedList RandomForest, LinkedList<HashMap<String,String>> predictList){
         for(String key : predictList.get(0).keySet()){
             this.key=key;
         }
+
         this.totalCount = predictList.size();
         ListIterator predictListIterator = predictList.listIterator();
+        int k =5;
         while(predictListIterator.hasNext()){
-            HashMap toPredict = (HashMap)predictListIterator.next();
-            guessResult(tree,toPredict);
+            ListIterator RandomForestLterator = RandomForest.listIterator();
+            HashMap toPredict = (HashMap) predictListIterator.next();
+            HashMap<String,Integer> majority = new HashMap();
+            while(RandomForestLterator.hasNext()) {
+                MyTree tree = (MyTree) RandomForestLterator.next();
+                //System.out.println(toPredict);
+                guessResult(tree, toPredict);
+                if(majority.containsKey(classification)){
+                    int t = majority.get(classification);
+                    t++;
+                    majority.put(classification,t);
+                }
+                else{
+                    majority.put(classification,1);
+                }
+
+            }
+            int max =Collections.max(majority.values());
+
+            for(String key : majority.keySet()){
+                if(majority.get(key)==max){
+                    classifi = key;
+                    break;
+                }
+            }
+            if(toPredict.get(key).equals(classifi)){
+                this.passCount++;
+            }
+            //System.out.println(toPredict + "---" + classifi);
         }
+        predictionAccuracy();
     }
 
     void guessResult(MyTree tree, HashMap<String,String> toPredict){
         if(tree.isLeaf()) {
            this.detailResult = this.detailResult + toPredict + "---" + tree.getAttribute()+"\n";
+           //System.out.println(toPredict + "---" + tree.getAttribute());
            if(toPredict.get(key).equals(tree.getAttribute())){
-               this.passCount++;
+               //this.passCount++;
            }
+            this.classification = tree.getAttribute().toString();
         }
         else{
             String value = toPredict.get(tree.getAttribute()).toString();

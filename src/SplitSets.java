@@ -7,13 +7,11 @@ public class SplitSets {
     private LinkedList<HashMap<String,String>> testSet;
     private LinkedList<HashMap<String,String>> trainSet;
 
-    public SplitSets(LinkedList mainList,double trainingPercentage){
+    public SplitSets(LinkedList mainList,double testingPercentage){
 
         int size = mainList.size();
-        long testSetCount = Math.round(size*(trainingPercentage/100));
+        long testSetCount = Math.round(size*(testingPercentage/100));
 
-        System.out.println(trainingPercentage);
-        System.out.println(size+"=lll="+testSetCount);
         LinkedList<HashMap<String,String>> trainset = new LinkedList(mainList);
         LinkedList<HashMap<String,String>> testSet = new LinkedList<>();
         Random r = new Random();
