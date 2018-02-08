@@ -1,30 +1,32 @@
 import java.util.*;
 
 public class BuildTree {
+
     public MyTree buildSubTree(LinkedList<HashMap<String,String>> mainList, String bestAttribute) {
         MyTree tree = null;
         ListIterator mainListIterator = mainList.listIterator();
-        Set tempchoosenAttributesValues = new HashSet();
+        Set tempchosenAttributesValues = new HashSet();
         while (mainListIterator.hasNext()) {
             LinkedHashMap<String, String> hm = (LinkedHashMap) mainListIterator.next();
             if (hm.containsKey(bestAttribute))
-                tempchoosenAttributesValues.add(hm.get(bestAttribute));
+                tempchosenAttributesValues.add(hm.get(bestAttribute));
         }
 
-        LinkedList chosenAttribute = new LinkedList(tempchoosenAttributesValues);
+        LinkedList chosenAttribute = new LinkedList(tempchosenAttributesValues);
 
         LinkedList<MyTree> childTree = new LinkedList<>();
-        if(bestAttribute==null){
+        if(bestAttribute==null){                                            //Initial case when no Attribute is selected
             int resultIndex = ((HashMap)(mainList.get(0))).size() - 1;
             if (resultIndex > 0) {
 
-                LinkedList<LinkedList> mainList1 = (new MapToList()).mapToList(mainList);
-                new Entropy(mainList1, resultIndex);
+                LinkedList<LinkedList> mainList1 = Miscellaneous.mapToList(mainList);
+                Entropy e = new Entropy();
+                e.calculateEntropy(mainList1, resultIndex);
 
-                String nextBestAttribute = Gain.bestAttribute;
+                String nextBestAttribute = Gain.getBestAttribute();
 
-                if (Gain.rootEntropy.equals(0.0)) {
-                    tree = new MyTree(Entropy.classtype.get(0), "_root_");
+                if (Gain.getRootEntropy().equals(0.0)) {
+                    tree = new MyTree(Entropy.getClasstype().get(0), "_root_");
                     tree.setLeaf();
                 }
                 else{
@@ -38,10 +40,9 @@ public class BuildTree {
                 tree.setLeaf();
             }
         }
-        else{
+        else{                                                                                  //when Attribute to build node is known
             ListIterator chosenAttributeIterator = chosenAttribute.listIterator();
             while (chosenAttributeIterator.hasNext()) {
-
                 String chosenAttributeString = chosenAttributeIterator.next().toString();
                 mainListIterator = mainList.listIterator();
                 LinkedList<HashMap<String, String>> newMainList = new LinkedList<>();
@@ -51,11 +52,11 @@ public class BuildTree {
                     for (Object Ohmkeys : hm.keySet()) {
                         String hmkey = Ohmkeys.toString();
                         if (hm.get(hmkey).equals(chosenAttributeString) && hmkey.equals(bestAttribute)) {
-                            newhm = new LinkedHashMap(hm);
+                            newhm = new LinkedHashMap(hm);                                            //subsets with same attribute type
                         }
                     }
                     if (newhm.size() != 0) {
-                        newhm.remove(bestAttribute);
+                        newhm.remove(bestAttribute);                                                  //remove the chosen attribute column
                         newMainList.add(newhm);
                     }
                 }
@@ -63,23 +64,25 @@ public class BuildTree {
                 MyTree nodes = null;
 
                 int resultIndex = (newMainList.get(0)).size() - 1;
-                if (resultIndex > 0) {
+                if (resultIndex > 0) {                                                                 //If the attribute selected is not the last row(result row)
 
-                    LinkedList<LinkedList> mainList1 = (new MapToList()).mapToList(newMainList);
-                    new Entropy(mainList1, resultIndex);
+                    LinkedList<LinkedList> mainList1 = Miscellaneous.mapToList(newMainList);
 
-                    String nextBestAttribute = Gain.bestAttribute;
+                    Entropy e =new Entropy();
+                    e.calculateEntropy(mainList1, resultIndex);
 
-                    if (Gain.rootEntropy.equals(0.0)) {
-                        nodes = new MyTree(Entropy.classtype.get(0), chosenAttributeString);
+                    String nextBestAttribute = Gain.getBestAttribute();
+
+                    if (Gain.getRootEntropy().equals(0.0)) {                                            //if gain is 0 then make it as leaf
+                        nodes = new MyTree(Entropy.getClasstype().get(0), chosenAttributeString);
                         nodes.setLeaf();
                     }
-                    else {
+                    else {                                                                              //get the next node
                         nodes = new BuildTree().buildSubTree(newMainList, nextBestAttribute);
                         nodes.setEdge(chosenAttributeString);
                     }
                 }
-                else if (resultIndex == 0) {
+                else if (resultIndex == 0) {                                                            //if chosen attribute is result column then make is as leaf
                     LinkedList classif = new LinkedList(newMainList.get(0).values());
                     nodes = new MyTree(classif.get(0), chosenAttributeString);
                     nodes.setLeaf();

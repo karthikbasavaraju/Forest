@@ -9,8 +9,12 @@ public class MyTree<String> {
     private String parent;
 
     public MyTree() {
-        super();
         children = new LinkedList<MyTree<String>>();
+    }
+
+    public MyTree(String attribute,String edge) {
+        this();
+        setData(attribute,edge);
     }
 
     public void setEdge(String edge) {
@@ -25,18 +29,7 @@ public class MyTree<String> {
         return leaf;
     }
 
-    public MyTree(String attribute) {
-        this();
-        this.attribute = attribute;
-        this.edge = null;
-    }
 
-
-
-    public MyTree(String attribute,String edge) {
-        this();
-        setData(attribute,edge);
-    }
 
     public String getParent() {
         return this.parent;

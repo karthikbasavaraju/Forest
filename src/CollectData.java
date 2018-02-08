@@ -5,9 +5,11 @@ import java.util.*;
 
 public class CollectData {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public LinkedList<HashMap<String,String>> getData(String filename) throws FileNotFoundException {
 
-        Scanner scanner = new Scanner(new File("C:\\Users\\kbasa\\IdeaProjects\\Decision Tree\\src\\irish.csv"));
+
+        // Assuming the csv files doesnt have missing data, no space in any values and the result to predict is at the last column
+        Scanner scanner = new Scanner(new File(System.getProperty("user.dir")+"\\src\\DataSet\\"+filename));
         LinkedList<HashMap<String, String>> mainList = new LinkedList<>();
         LinkedHashMap<String, String> subList;
         LinkedList<String> attribute = new LinkedList<>();
@@ -31,39 +33,6 @@ public class CollectData {
         }
         System.out.println("main = "+mainList);
 
-        SplitSets s = new SplitSets(mainList,30);
-
-        LinkedList<HashMap<String,String>> testingSet= s.getTestSet();
-        LinkedList<HashMap<String,String>> trainingSet= s.getTrainSet();
-        //System.out.println(trainingSet);
-        //System.out.println(testingSet);
-        LinkedList RandomSet = new RandomForestSet(trainingSet,6).RandomSet();
-
-        LinkedList<MyTree> RandomForestTree=new LinkedList<>();
-        ListIterator RandomSetIterator = RandomSet.listIterator();
-        int i=1;
-        while(RandomSetIterator.hasNext()) {
-            testingSet= s.getTestSet();
-            LinkedList decisionTree = (LinkedList)RandomSetIterator.next();
-            MyTree tree = new BuildTree().buildSubTree(decisionTree, null);
-            RandomForestTree.add(tree);
-            System.out.println("Tree-"+i++);
-           // new Disp().displayNodes(tree, "", "");
-            //System.out.println(testingSet);
-            //Predict n = new Predict(tree, testingSet);
-            //n.printDetailedResult();
-            //n.predictionAccuracy();
-        }
-
-        new Predict(RandomForestTree,testingSet);
-
-
-
-        System.out.println("complete");
-        MyTree tree = new BuildTree().buildSubTree(trainingSet, null);
-        RandomForestTree = new LinkedList<>();
-        RandomForestTree.add(tree);
-        //new Disp().displayNodes(tree, "", "");
-        new Predict(RandomForestTree, testingSet);
+        return  mainList;
     }
 }

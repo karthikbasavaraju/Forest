@@ -2,29 +2,36 @@ import java.util.*;
 
 public class Predict {
 
-    private String detailResult="";
-    private int passCount=0;
-    private int totalCount=0;
-    private String key;
-    private String classifi = "";
-    private String classification;
-    private int k =5;
+    private String detailResult="";                 //Contains all the results from all the trees/tree of Random Forest/Decision Tree
+    private int passCount=0;                        //No of rows correctly predicted by the tree
+    private int totalCount=0;                       //Total no of rows to predict
+    private String key;                             //Column name with which we are going to compare our result
+    private String classification;                  //Stores result of current decision tree
+
     public Predict(LinkedList RandomForest, LinkedList<HashMap<String,String>> predictList){
-        for(String key : predictList.get(0).keySet()){
-            this.key=key;
+
+        /*
+        To get the result attributes name
+        */
+        if (predictList.size()>0){
+            for(String key : predictList.get(0).keySet()){
+                this.key=key;
+            }
         }
 
         this.totalCount = predictList.size();
         ListIterator predictListIterator = predictList.listIterator();
-        int k =5;
         while(predictListIterator.hasNext()){
             ListIterator RandomForestLterator = RandomForest.listIterator();
             HashMap toPredict = (HashMap) predictListIterator.next();
             HashMap<String,Integer> majority = new HashMap();
             while(RandomForestLterator.hasNext()) {
                 MyTree tree = (MyTree) RandomForestLterator.next();
-                //System.out.println(toPredict);
+
                 guessResult(tree, toPredict);
+                /*
+                    Storing prediction count
+                 */
                 if(majority.containsKey(classification)){
                     int t = majority.get(classification);
                     t++;
@@ -35,8 +42,12 @@ public class Predict {
                 }
 
             }
-            int max =Collections.max(majority.values());
 
+            /*
+            Voting
+             */
+            String classifi = "";
+            int max =Collections.max(majority.values());
             for(String key : majority.keySet()){
                 if(majority.get(key)==max){
                     classifi = key;
@@ -46,7 +57,7 @@ public class Predict {
             if(toPredict.get(key).equals(classifi)){
                 this.passCount++;
             }
-            //System.out.println(toPredict + "---" + classifi);
+            this.detailResult = this.detailResult +   "--------------------------" +classifi+"------------------------\n";
         }
         predictionAccuracy();
     }
@@ -55,9 +66,6 @@ public class Predict {
         if(tree.isLeaf()) {
            this.detailResult = this.detailResult + toPredict + "---" + tree.getAttribute()+"\n";
            //System.out.println(toPredict + "---" + tree.getAttribute());
-           if(toPredict.get(key).equals(tree.getAttribute())){
-               //this.passCount++;
-           }
             this.classification = tree.getAttribute().toString();
         }
         else{
