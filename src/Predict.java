@@ -11,7 +11,7 @@ public class Predict {
     public Predict(LinkedList RandomForest, LinkedList<HashMap<String,String>> predictList){
 
         /*
-        To get the result attributes name
+        To get the result attribute's name
         */
         if (predictList.size()>0){
             for(String key : predictList.get(0).keySet()){
@@ -40,7 +40,6 @@ public class Predict {
                 else{
                     majority.put(classification,1);
                 }
-
             }
 
             /*
@@ -62,6 +61,9 @@ public class Predict {
         predictionAccuracy();
     }
 
+    /*
+    To travers(DFS) to the leaf based on the attribute and its corresponding values
+     */
     void guessResult(MyTree tree, HashMap<String,String> toPredict){
         if(tree.isLeaf()) {
            this.detailResult = this.detailResult + toPredict + "---" + tree.getAttribute()+"\n";

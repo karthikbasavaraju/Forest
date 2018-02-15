@@ -1,7 +1,9 @@
 import java.util.*;
 
 public class BuildTree {
-
+    /*
+        Builds the tree recursively
+     */
     public MyTree buildSubTree(LinkedList<HashMap<String,String>> mainList, String bestAttribute) {
         MyTree tree = null;
         ListIterator mainListIterator = mainList.listIterator();
@@ -56,13 +58,12 @@ public class BuildTree {
                         }
                     }
                     if (newhm.size() != 0) {
-                        newhm.remove(bestAttribute);                                                  //remove the chosen attribute column
+                        newhm.remove(bestAttribute);                                                  //remove the chosen attribute from the row
                         newMainList.add(newhm);
                     }
                 }
 
                 MyTree nodes = null;
-
                 int resultIndex = (newMainList.get(0)).size() - 1;
                 if (resultIndex > 0) {                                                                 //If the attribute selected is not the last row(result row)
 
@@ -77,7 +78,7 @@ public class BuildTree {
                         nodes = new MyTree(Entropy.getClasstype().get(0), chosenAttributeString);
                         nodes.setLeaf();
                     }
-                    else {                                                                              //get the next node
+                    else {                                                                              //get the next node to build the tree
                         nodes = new BuildTree().buildSubTree(newMainList, nextBestAttribute);
                         nodes.setEdge(chosenAttributeString);
                     }
@@ -89,7 +90,6 @@ public class BuildTree {
                 }
                 childTree.add(nodes);
             }
-
             tree = new MyTree();
             tree.setAttribute(bestAttribute);
             tree.setChildren(childTree);
@@ -97,4 +97,3 @@ public class BuildTree {
         return tree;
     }
 }
-

@@ -3,11 +3,11 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Miscellaneous {
-
 /*
 Extracts data from csv file and stores it in LinkedList of Hashmap
  */
     static public LinkedList<HashMap<String,String>> getData(String filename) throws FileNotFoundException {
+
 
         // Assuming the csv files doesnt have missing data, no space in any values and the result to predict is at the last column
         Scanner scanner = new Scanner(new File(System.getProperty("user.dir")+"\\src\\DataSet\\"+filename));
@@ -18,9 +18,7 @@ Extracts data from csv file and stores it in LinkedList of Hashmap
 
         while (stemp1.hasMoreTokens()) {
             attribute.add(stemp1.nextToken());
-
         }
-        System.out.println(attribute);
         while (scanner.hasNext()) {
             StringTokenizer stemp = new StringTokenizer(scanner.next(), ",");
             subList = new LinkedHashMap<>();
@@ -32,15 +30,12 @@ Extracts data from csv file and stores it in LinkedList of Hashmap
             }
             mainList.add(subList);
         }
-        System.out.println("main = "+mainList);
-
         return  mainList;
     }
 
 
     static void display(String position){
         //System.out.println(position);
-
     }
 
     /*

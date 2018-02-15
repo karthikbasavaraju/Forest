@@ -2,10 +2,10 @@ import java.util.LinkedList;
 
 public class MyTree<String> {
 
-    private String attribute;
-    private String edge;
-    private LinkedList<MyTree<String>> children;
-    private boolean leaf=false;
+    private String attribute;                           //Stores attribute of the node
+    private String edge;                               //stores attribute values
+    private LinkedList<MyTree<String>> children;        // child nodes
+    private boolean leaf=false;                        //Indicates the node is leaf or not
     private String parent;
 
     public MyTree() {
